@@ -37,10 +37,10 @@ function RootNavigator() {
     <Stack.Navigator
       initialRouteName="Login"
     >
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="ParkingLotInfo" component={ParkingLotInfoScreen} />
-      <Stack.Screen name="ParkingLotUsage" component={ParkingLotUsageScreen} />
-      <Stack.Screen name="Cancel" component={CancelScreen} />
+      <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
+      <Stack.Screen name="ParkingLotInfo" component={ParkingLotInfoScreen} options={{headerShown: false}}/>
+      <Stack.Screen name="ParkingLotUsage" component={ParkingLotUsageScreen} options={{headerShown: false}}/>
+      <Stack.Screen name="Cancel" component={CancelScreen} options={{headerShown: false}}/>
       {/* <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} /> */}
     </Stack.Navigator>
   );
