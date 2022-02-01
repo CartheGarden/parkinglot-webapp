@@ -20,4 +20,5 @@ export default {
   secondary: "#F9A830",
   black: "#000",
   white: "#fff",
+  gray: "#808080",
 };
