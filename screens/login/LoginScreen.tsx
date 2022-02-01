@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from '../../types';
-import { View, ImageBackground , Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, ImageBackground , Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { CenteredText, Footer } from "../../components";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>
@@ -15,9 +15,7 @@ export default function LoginScrren() {
         source={require('../../assets/images/loginBackground.jpg')}
         style={styles.backgroundImage}
         resizeMode="cover"
-      >
-        
-      </ImageBackground>
+      />
       <View style={styles.backgroundCover}></View>
       <View style={styles.body}>
         {/*
