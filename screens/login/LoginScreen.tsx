@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
-import { View, ImageBackground , StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from '../../types';
+import { View, ImageBackground , Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { CenteredText, Footer } from "../../components";
 
 declare global {
@@ -30,9 +33,7 @@ export default function LoginScreen() {
         source={require('../../assets/images/loginBackground.jpg')}
         style={styles.backgroundImage}
         resizeMode="cover"
-      >
-
-      </ImageBackground>
+      />
       <View style={styles.backgroundCover}></View>
       <View style={styles.body}>
         {/*
