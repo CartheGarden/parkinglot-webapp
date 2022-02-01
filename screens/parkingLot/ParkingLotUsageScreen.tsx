@@ -1,14 +1,30 @@
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Image, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../../constants/Colors';
 import { CenteredText, Footer } from "../../components";
+import { InfoModalScreen } from '.';
 
 export default function ParkingLotUsageScreen() {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.textStyle}>이용정보</Text>
-        <TouchableOpacity>
+        <Modal
+          visible={modalVisible}
+          animationType='none'
+          transparent={true}
+          onRequestClose={()=>setModalVisible(!modalVisible)}
+        >
+          <InfoModalScreen
+            onPressClose={()=>setModalVisible(!modalVisible)}
+          />
+        </Modal>
+        <TouchableOpacity
+          onPress = {() => setModalVisible(true)}
+        >
           <Text style={styles.infoButton}>
             상세 정보 보기
             <Icon name="chevron-forward"/>
@@ -61,7 +77,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontFamily: 'DoHyeon',
-    fontSize: 22,
+    fontSize: 25,
     color: Colors.white,
   },
   body: {
