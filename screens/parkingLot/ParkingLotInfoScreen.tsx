@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions ,StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -17,6 +17,15 @@ export default function LoginScrren() {
   Font.loadAsync({
     DoHyeon: require('../../assets/fonts/DoHyeon.ttf')
   })
+
+  useEffect(() => {
+    getNaverToken()
+  }, [])
+
+  const getNaverToken = () => {
+    const token = location.hash.split("=")[1].split("&")[0]
+    alert(token);
+  }
 
   return (
     <View style={styles.container}>
@@ -169,9 +178,9 @@ const styles = StyleSheet.create({
     width:'85%',
     height: '20%',
     borderRadius: 30,
-    backgroundColor: '#FFF', 
+    backgroundColor: '#FFF',
     alignSelf:'center',
-    justifyContent: "center", 
+    justifyContent: "center",
     alignItems: "center",
   },
   modal__button: {
@@ -191,7 +200,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title__text: {
-    fontSize: 18, 
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#808080',
   },

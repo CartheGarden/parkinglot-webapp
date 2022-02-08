@@ -1,13 +1,35 @@
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from '../../types';
 import { View, ImageBackground , Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { CenteredText, Footer } from "../../components";
 
+declare global {
+  interface Window {
+    naver: any;
+  }
+}
+
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>
 
 export default function LoginScrren() {
   const navigation = useNavigation<NavigationProp>();
+
+  useEffect(() => {
+    initNaver();
+  }, [])
+
+  const initNaver = () => {
+    const naverLogin = new window.naver.LoginWithNaverId({
+      clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
+      callbackUrl: 'http://localhost:19006/info',
+      isPopup: false,
+      loginButton: { color: 'green', type: 3, height: 30 },
+      callbackHandle: true
+    })
+    naverLogin.init()
+  }
 
   return (
     <View style={styles.container}>
@@ -23,13 +45,14 @@ export default function LoginScrren() {
         */}
         <CenteredText text="어따하지" style={{flex: .4}} textStyle={{color: 'white' ,fontSize: 48}}/>
         <CenteredText text="Enjoy your smart parking" style={{flex: .25}} textStyle={{color: 'white', fontSize: 20}}/>
-        <TouchableOpacity style={styles.loginButton} onPress={()=>navigation.navigate('ParkingLotInfo')}>
+        <div id="naverIdLogin"/>
+        {/* <TouchableOpacity style={styles.loginButton}>
           <Image source={require('../../assets/images/loginButtonKakao.png')} resizeMode='contain' style={{width: '100%', height: '100%'}}/>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <Footer/>
-      
-      
+
+
     </View>
   );
 }
