@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dimensions ,StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -6,6 +6,7 @@ import { RootStackParamList } from '../../types';
 import { CenteredText, Footer } from '../../components';
 import Modal from 'react-native-modal';
 import * as Font from "expo-font";
+import api from '../../utils/api';
 
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'ParkingLotInfo'>
@@ -13,10 +14,29 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'ParkingLotI
 export default function LoginScrren() {
   const navigation = useNavigation<NavigationProp>();
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [parkingLotData, setParkingLotData] = useState([]);
 
   Font.loadAsync({
     DoHyeon: require('../../assets/fonts/DoHyeon.ttf')
   })
+
+  //TODO: QR코드에서 가져온 parkingLockId 넘겨주기, Redux에 parkingSpaceId 저장
+  async function getParkingLot () {
+    try {
+      const res = await api.getParkingSpace("TEST01");
+      setParkingLotData(res.data.parkingLot)
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(()=>{
+    setLoading(true);
+    getParkingLot();
+    setLoading(false);
+  }, [])
+
 
   return (
     <View style={styles.container}>
@@ -30,15 +50,15 @@ export default function LoginScrren() {
           </View>
           <View style={styles.textBox}>
             <Text style={styles.textBox__subTitle}>운영시간</Text>
-            <Text style={styles.subTitle__text}>09:00 ~ 17:00</Text>
+            <Text style={styles.subTitle__text}>{parkingLotData.weekdayStartTime+" ~ "+parkingLotData.weekdayEndTime}</Text>
           </View>
           <View style={styles.textBox}>
             <Text style={styles.textBox__subTitle}>위치</Text>
-            <Text style={styles.subTitle__text}>수원시 장안구 화산로 213번길</Text>
+            <Text style={styles.subTitle__text}>{parkingLotData.address}</Text>
           </View>
           <View style={styles.textBox}>
             <Text style={styles.textBox__subTitle}>관리자 번호</Text>
-            <Text style={styles.subTitle__text}>010-1111-2222</Text>
+            <Text style={styles.subTitle__text}>{parkingLotData.adminPhone}</Text>
           </View>
         </View>
         <View
@@ -55,12 +75,12 @@ export default function LoginScrren() {
             <Text style={styles.title__text}>요금 안내</Text>
           </View>
           <View style={styles.textBox}>
-            <Text style={styles.textBox__subTitle}>기본 요금</Text>
-            <Text style={styles.subTitle__text}>1시간/2000원</Text>
+            <Text style={styles.textBox__subTitle}>기본 요금(분)</Text>
+            <Text style={styles.subTitle__text}>{parkingLotData.basicTimeUnitMinute+"/"+parkingLotData.basicCharge+"원"}</Text>
           </View>
           <View style={styles.textBox}>
-            <Text style={styles.textBox__subTitle}>추가 요금</Text>
-            <Text style={styles.subTitle__text}>10분/25원</Text>
+            <Text style={styles.textBox__subTitle}>추가 요금(분)</Text>
+            <Text style={styles.subTitle__text}>{parkingLotData.additionalCharge+"/"+parkingLotData.additionalTimeUnitMinute+"원"}</Text>
           </View>
           <View style={styles.textBox}>
             <Text style={styles.textBox__subTitle}>할증 요금</Text>
@@ -68,10 +88,10 @@ export default function LoginScrren() {
           </View>
         </View>
         <View style={styles.body__footer}>
-          <Text style={{fontSize: 15, color: '#808080', marginBottom:15}}>업데이트: 2022-01-19</Text>
+          <Text style={{fontSize: 15, color: '#808080', marginBottom:15}}>{"업데이트: "+parkingLotData.lastUpdate}</Text>
           <View style={styles.button}>
             <TouchableOpacity
-              onPress={()=>{navigation.navigate('ParkingLotUsage')}}
+              onPress={()=>{navigation.navigate('Login')}}
               style={{backgroundColor: '#F9A830', borderRadius:10, alignItems:'center', justifyContent:'center', flex:.45}}
             >
               <Text style={{color: '#FFF', fontFamily: 'DoHyeon', fontSize:20}}>주차하기</Text>

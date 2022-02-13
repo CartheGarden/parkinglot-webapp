@@ -6,6 +6,7 @@ import { CenteredText, Footer } from "../../components";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>
 
+//TODO: Redux에 로그인한 유저 정보 저장, login 성공하면 Redux에 usage Id 저장
 export default function LoginScrren() {
   const navigation = useNavigation<NavigationProp>();
 
@@ -23,7 +24,7 @@ export default function LoginScrren() {
         */}
         <CenteredText text="어따하지" style={{flex: .4}} textStyle={{color: 'white' ,fontSize: 48}}/>
         <CenteredText text="Enjoy your smart parking" style={{flex: .25}} textStyle={{color: 'white', fontSize: 20}}/>
-        <TouchableOpacity style={styles.loginButton} onPress={()=>navigation.navigate('ParkingLotInfo')}>
+        <TouchableOpacity style={styles.loginButton} onPress={()=>navigation.navigate('ParkingLotUsage')}>
           <Image source={require('../../assets/images/loginButtonKakao.png')} resizeMode='contain' style={{width: '100%', height: '100%'}}/>
         </TouchableOpacity>
       </View>

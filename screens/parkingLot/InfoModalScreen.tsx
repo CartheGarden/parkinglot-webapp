@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { CenteredText } from '../../components';
 import Colors from '../../constants/Colors';
 
+//TODO: Redux에 저장된 ParkingLot 정보로 가져오기
 export default function InfoModalScreen({onPressClose}) {
 
   const Info = ({title, content}) => (
