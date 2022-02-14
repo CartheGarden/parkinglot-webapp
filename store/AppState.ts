@@ -7,9 +7,9 @@
 export type AppState = {
     // loggedIn: Boolean
     // loggedUser: User
-    parkingLockId: string
+    parkingSpaceId: string
 }
 
 export type parkingSapce = {
-    parkingLockId: string
+    id: string
 }

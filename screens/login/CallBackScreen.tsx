@@ -3,7 +3,8 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from '../../types';
 import { View, Text, StyleSheet } from 'react-native';
-
+import { useSelector } from 'react-redux';
+import type { AppState } from '../../store'
 declare global {
   interface Window {
     naver: any;
@@ -14,6 +15,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'CallBack'>
 
 export default function CallBackScreen() {
   const navigation = useNavigation<NavigationProp>();
+  const parkingSpaceId = useSelector<AppState, string>((state) => state.parkingSpaceId);
 
   useEffect(() => {
     naverLogin.init()
@@ -48,7 +50,7 @@ export default function CallBackScreen() {
 
         // navigation.navigate('ParkingLotUsage', id);
         // TODO: Call postMember(data) with data: {naverid, name, email}
-        //       and Call postUsage(data) data: { ?? } -> get usage id -> pass through navigation
+        //       and Call postUsage(data) data: { naverId, parkingSpaceId } -> get usage id -> pass through navigation
         console.log(data.naverId)
         console.log(data.name)
         console.log(data.email)

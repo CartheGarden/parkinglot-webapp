@@ -1,13 +1,13 @@
 import type {Action} from 'redux'
 import {parkingSapce} from './AppState'
 
-export type SaveParkingLockAction = Action<'saveParkingLock'> & {
-    parkingLockId: string
+export type SaveParkingSpaceIdAction = Action<'saveParkingSpaceId'> & {
+    parkingSpaceId: string
 }
 
-export const saveParkingLockAction = (parkingLockId: string): SaveParkingLockAction => ({
-    type: 'saveParkingLock',
-    parkingLockId
+export const saveParkingSpaceAction = (parkingSpaceId: string): SaveParkingSpaceIdAction => ({
+    type: 'saveParkingSpaceId',
+    parkingSpaceId
 })
 
 // type LogoutAction = Action<'logout'>

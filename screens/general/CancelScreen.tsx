@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import * as Font from 'expo-font';
 
-export default function LoginScrren() {
+export default function CancelScreen() {
 
   Font.loadAsync({
     DoHyeon: require('../../assets/fonts/DoHyeon.ttf')

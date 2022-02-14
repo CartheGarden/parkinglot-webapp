@@ -12,8 +12,7 @@ declare global {
 }
 
 
-//TODO: Redux에 로그인한 유저 정보 저장, login 성공하면 Redux에 usage Id 저장
-export default function LoginScrren() {
+export default function LoginScreen() {
   const navigation = useNavigation<NavigationProp>();
 
   useEffect(() => {

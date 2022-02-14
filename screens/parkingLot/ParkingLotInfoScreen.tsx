@@ -7,15 +7,22 @@ import { CenteredText, Footer } from '../../components';
 import Modal from 'react-native-modal';
 import * as Font from "expo-font";
 import api from '../../utils/api';
+import { useDispatch } from 'react-redux';
+import { saveParkingSpaceAction } from '../../store'
 
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'ParkingLotInfo'>
 
-export default function LoginScrren() {
+export default function ParkingLotInfoScreen() {
   const navigation = useNavigation<NavigationProp>();
+  const dispatch = useDispatch();
+
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [parkingLotData, setParkingLotData] = useState([]);
+
+  // FIXME: get from url parameter
+  const parkingLockIdFromQRCode = "TEST01"
 
   Font.loadAsync({
     DoHyeon: require('../../assets/fonts/DoHyeon.ttf')
@@ -24,8 +31,9 @@ export default function LoginScrren() {
   //TODO: QR코드에서 가져온 parkingLockId 넘겨주기, Redux에 parkingSpaceId 저장
   async function getParkingLot () {
     try {
-      const res = await api.getParkingSpace("TEST01");
+      const res = await api.getParkingSpace(parkingLockIdFromQRCode);
       setParkingLotData(res.data.parkingLot)
+      dispatch(saveParkingSpaceAction(res?.data.id));
     } catch (err) {
       console.log(err);
     }
