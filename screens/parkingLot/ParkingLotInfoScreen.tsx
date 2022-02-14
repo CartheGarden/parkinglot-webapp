@@ -10,7 +10,7 @@ import * as Font from "expo-font";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'ParkingLotInfo'>
 
-export default function LoginScrren() {
+export default function ParkingLotInfoScreen({route}) {
   const navigation = useNavigation<NavigationProp>();
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -19,13 +19,10 @@ export default function LoginScrren() {
   })
 
   useEffect(() => {
-    getNaverToken()
+    console.log(route.params.naverId);
+    console.log(route.params.name);
+    console.log(route.params.email);
   }, [])
-
-  const getNaverToken = () => {
-    const token = location.hash.split("=")[1].split("&")[0]
-    alert(token);
-  }
 
   return (
     <View style={styles.container}>

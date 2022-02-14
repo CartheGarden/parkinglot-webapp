@@ -12,7 +12,7 @@ import { ColorSchemeName, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import { LoginScreen, ParkingLotInfoScreen, ParkingLotUsageScreen, CancelScreen } from '../screens';
+import { LoginScreen, ParkingLotInfoScreen, ParkingLotUsageScreen, CancelScreen, CallBackScreen } from '../screens';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
@@ -38,6 +38,7 @@ function RootNavigator() {
       initialRouteName="Login"
     >
       <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
+      <Stack.Screen name="CallBack" component={CallBackScreen} options={{headerShown: false}}/>
       <Stack.Screen name="ParkingLotInfo" component={ParkingLotInfoScreen} options={{headerShown: false}}/>
       <Stack.Screen name="ParkingLotUsage" component={ParkingLotUsageScreen} options={{headerShown: false}}/>
       <Stack.Screen name="Cancel" component={CancelScreen} options={{headerShown: false}}/>

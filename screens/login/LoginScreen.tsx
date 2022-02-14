@@ -11,10 +11,7 @@ declare global {
   }
 }
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>
-
-export default function LoginScrren() {
-  const navigation = useNavigation<NavigationProp>();
+export default function LoginScreen() {
 
   useEffect(() => {
     initNaver();
@@ -22,8 +19,8 @@ export default function LoginScrren() {
 
   const initNaver = () => {
     const naverLogin = new window.naver.LoginWithNaverId({
-      clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
-      callbackUrl: 'http://localhost:19006/info',
+      clientId: 'WBKLeGjXXB0UwVFZhu3e',
+      callbackUrl: 'http://localhost:19006/callback',
       isPopup: false,
       loginButton: { color: 'green', type: 3, height: 30 },
       callbackHandle: true
