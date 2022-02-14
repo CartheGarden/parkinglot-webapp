@@ -1,13 +1,28 @@
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from '../../types';
-import { View, ImageBackground , Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, ImageBackground , StyleSheet } from 'react-native';
 import { CenteredText, Footer } from "../../components";
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>
+declare global {
+  interface Window {
+    naver: any;
+  }
+}
 
-export default function LoginScrren() {
-  const navigation = useNavigation<NavigationProp>();
+export default function LoginScreen() {
+
+  useEffect(() => {
+    initNaver();
+  }, [])
+
+  const initNaver = () => {
+    const naverLogin = new window.naver.LoginWithNaverId({
+      clientId: {CLIENT_ID},
+      callbackUrl: {CALL_BACK_URL},
+      isPopup: false,
+      loginButton: { color: 'green', type: 3, height: 30 },
+    })
+    naverLogin.init()
+  }
 
   return (
     <View style={styles.container}>
@@ -16,7 +31,7 @@ export default function LoginScrren() {
         style={styles.backgroundImage}
         resizeMode="cover"
       >
-        
+
       </ImageBackground>
       <View style={styles.backgroundCover}></View>
       <View style={styles.body}>
@@ -25,13 +40,14 @@ export default function LoginScrren() {
         */}
         <CenteredText text="어따하지" style={{flex: .4}} textStyle={{color: 'white' ,fontSize: 48}}/>
         <CenteredText text="Enjoy your smart parking" style={{flex: .25}} textStyle={{color: 'white', fontSize: 20}}/>
-        <TouchableOpacity style={styles.loginButton} onPress={()=>navigation.navigate('ParkingLotInfo')}>
+        {/* <TouchableOpacity style={styles.loginButton}>
           <Image source={require('../../assets/images/loginButtonKakao.png')} resizeMode='contain' style={{width: '100%', height: '100%'}}/>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <div id="naverIdLogin"/>
       </View>
       <Footer/>
-      
-      
+
+
     </View>
   );
 }

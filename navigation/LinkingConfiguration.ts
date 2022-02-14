@@ -13,10 +13,11 @@ const linking: LinkingOptions<RootStackParamList> = {
   prefixes: [Linking.createURL('/')],
   config: {
     screens: {
-      Login: 'login',
-      ParkingLotInfo: 'info',
-      ParkingLotUsage: 'usage',
-      Cancel: 'cancel',
+      //Login: 'login',
+      CallBack: 'callback',
+      //ParkingLotInfo: 'info',
+      //ParkingLotUsage: 'usage',
+      //Cancel: 'cancel',
       // NotFound: '*',
     },
   },

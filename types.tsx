@@ -15,6 +15,7 @@ declare global {
 
 export type RootStackParamList = {
   Login: undefined;
+  CallBack: undefined;
   ParkingLotInfo: undefined;
   ParkingLotUsage: undefined;
   Cancel: undefined;

@@ -8,6 +8,8 @@ import { InfoModalScreen } from '.';
 export default function ParkingLotUsageScreen() {
   const [modalVisible, setModalVisible] = useState(false);
 
+  //TODO: Get Usage id by url param and Call GetUsage(id)
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
