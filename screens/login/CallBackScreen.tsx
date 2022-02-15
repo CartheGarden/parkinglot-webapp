@@ -8,6 +8,8 @@ import type { AppState } from '../../store'
 import { MiddleScreen } from '../general';
 import api from '../../utils/api';
 import getEnvVars from '../../environment';
+
+const { NAVER_CLIENT_ID, CALL_BACK_URL } = getEnvVars();
 declare global {
   interface Window {
     naver: any;
