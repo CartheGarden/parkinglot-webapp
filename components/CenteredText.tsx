@@ -7,7 +7,7 @@ export default function CenteredText({text, textStyle, style}){
     DoHyeon: require('../assets/fonts/DoHyeon.ttf'),
   })
   return (
-    <View style={[style, {justifyContent: 'center'}]}>
+    <View style={[style, {justifyContent: 'center', alignItems: 'center'}]}>
       <Text style={[textStyle, {fontFamily: 'DoHyeon'}]}>{text}</Text>
     </View>
   )

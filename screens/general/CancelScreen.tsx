@@ -1,26 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native';
+import MiddleScreen from "./MiddleScreen"
 
-export default function LoginScrren() {
+export default function CancelScreen() {
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Cancel</Text>
-    </View>
+    <MiddleScreen text="취소되었습니다"/>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});

@@ -1,28 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../../constants/Colors';
-import { CenteredText, Footer } from "../../components";
-import { InfoModalScreen } from '.';
+import { CenteredText } from "../../components";
+import { InfoCardScreen } from '.';
+import api from '../../utils/api';
 
-export default function ParkingLotUsageScreen() {
+export default function ParkingLotUsageScreen({route}) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [usageData, setUsageData] = useState({});
+  const [usageDataObject, setUsageDataObject] = useState({});
+  const [parkingSpace, setParkingSpace] = useState({});
+  const [parkingLot, setparkingLot] = useState({});
+  const [member, setMember] = useState({});
 
-  //TODO: Get Usage id by url param and Call GetUsage(id)
+  //TODO: url params 가져오기
+
+  async function getUsage () {
+    try {
+      const res = await api.getUsage(route.params.usageId);
+      setUsageData(res.data)
+      setUsageDataObject(res?.data.usage)
+      setParkingSpace(res?.data.usage.parkingSpace)
+      setparkingLot(res?.data.usage.parkingSpace.parkingLot)
+      setMember(res?.data.usage.member)
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(()=>{
+    setLoading(true);
+    getUsage()
+    setLoading(false);
+  }, [])
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.textStyle}>이용정보</Text>
+        <Text style={styles.textStyle}>{member.name+"님의 이용정보"}</Text>
         <Modal
           visible={modalVisible}
           animationType='none'
           transparent={true}
           onRequestClose={()=>setModalVisible(!modalVisible)}
         >
-          <InfoModalScreen
-            onPressClose={()=>setModalVisible(!modalVisible)}
-          />
+          <View style={styles.modalContainer}>
+            <InfoCardScreen
+              isModal={true}
+              onPressClose={()=>setModalVisible(!modalVisible)}
+              data={parkingLot}
+            />
+          </View>
         </Modal>
         <TouchableOpacity
           onPress = {() => setModalVisible(true)}
@@ -36,23 +66,24 @@ export default function ParkingLotUsageScreen() {
       <View style={styles.body}>
         <View style={[styles.subview, {flex: .8}]}>
           <View style={[styles.subviewContent, {height: 90}]}>
-            <Text style={styles.subviewContentText}>B3층 C구역 25번</Text>
+            <Text style={styles.subviewContentText}>{parkingSpace.section}</Text>
           </View>
           <CenteredText text="주차구역" style={styles.subviewTitle} textStyle={{color: Colors.white, fontSize: 20}}/>
         </View>
         <View style={[styles.subview, {flex: 1}]}>
           <View style={[styles.subviewContent, {height: 130}]}>
-            <Text style={styles.subviewContentText}>5시간 45분</Text>
-            <Text style={[styles.subviewContentText, {fontSize: 18}]}>입차: 2022.01.19 12:10</Text>
+            <Text style={styles.subviewContentText}>{parseInt(usageData.usageMinute / 60) + "시간 "+ usageData.usageMinute % 60 +"분"}</Text>
+            <Text style={[styles.subviewContentText, {fontSize: 18}]}>{"입차: "+new Date(usageDataObject.entranceTime).toLocaleString()}</Text>
           </View>
           <CenteredText text="이용시간" style={styles.subviewTitle} textStyle={{color: Colors.white, fontSize: 20}}/>
         </View>
         <View style={styles.chargeInfo}>
           <Text style={[styles.textStyle, {backgroundColor: 'rgba( 249, 168, 48, 0.8 )'}]}>결제금액</Text>
-          <Text style={styles.textStyle}>2000원</Text>
+          <Text style={styles.textStyle}>{usageData.charge+"원"}</Text>
         </View>
         <View style={styles.chargeMsg}>
-          <Text style={{color: Colors.white}}>#출차 후 결제 안내 메시지가 전송됩니다</Text>
+          <Text style={{color: Colors.white}}>#출차 후 결제 안내 메일이 전송됩니다</Text>
+          <Text style={{color: Colors.white}}>{member.email}</Text>
         </View>
       </View>
       <View style={styles.footer}>
@@ -140,5 +171,11 @@ const styles = StyleSheet.create({
     height: '18%',
     // position: 'absolute',
     bottom: '0px',
+  },
+  modalContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba( 0, 0, 0, 0.5 )',
   }
 });

@@ -36,7 +36,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator
-      initialRouteName="Login"
+      initialRouteName="ParkingLotInfo"
     >
       <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
       <Stack.Screen name="CallBack" component={CallBackScreen} options={{headerShown: false}}/>
