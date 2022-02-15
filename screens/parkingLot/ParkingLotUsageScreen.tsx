@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, Image, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Colors from '../../constants/Colors';
-import { CenteredText, Footer } from "../../components";
-import { InfoModalScreen } from '.';
+import { CenteredText } from "../../components";
+import { InfoCardScreen } from '.';
 import api from '../../utils/api';
 
 export default function ParkingLotUsageScreen({route}) {
@@ -12,6 +12,7 @@ export default function ParkingLotUsageScreen({route}) {
   const [usageData, setUsageData] = useState({});
   const [usageDataObject, setUsageDataObject] = useState({});
   const [parkingSpace, setParkingSpace] = useState({});
+  const [parkingLot, setparkingLot] = useState({});
   const [member, setMember] = useState({});
 
   //TODO: url params 가져오기
@@ -22,6 +23,7 @@ export default function ParkingLotUsageScreen({route}) {
       setUsageData(res.data)
       setUsageDataObject(res?.data.usage)
       setParkingSpace(res?.data.usage.parkingSpace)
+      setparkingLot(res?.data.usage.parkingSpace.parkingLot)
       setMember(res?.data.usage.member)
     } catch (err) {
       console.log(err);
@@ -44,9 +46,13 @@ export default function ParkingLotUsageScreen({route}) {
           transparent={true}
           onRequestClose={()=>setModalVisible(!modalVisible)}
         >
-          <InfoModalScreen
-            onPressClose={()=>setModalVisible(!modalVisible)}
-          />
+          <View style={styles.modalContainer}>
+            <InfoCardScreen
+              isModal={true}
+              onPressClose={()=>setModalVisible(!modalVisible)}
+              data={parkingLot}
+            />
+          </View>
         </Modal>
         <TouchableOpacity
           onPress = {() => setModalVisible(true)}
@@ -165,5 +171,11 @@ const styles = StyleSheet.create({
     height: '18%',
     // position: 'absolute',
     bottom: '0px',
+  },
+  modalContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba( 0, 0, 0, 0.5 )',
   }
 });

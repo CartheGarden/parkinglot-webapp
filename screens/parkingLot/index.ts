@@ -1,5 +1,5 @@
 import ParkingLotInfoScreen from "./ParkingLotInfoScreen";
 import ParkingLotUsageScreen from "./ParkingLotUsageScreen";
-import InfoModalScreen from "./InfoModalScreen";
+import InfoCardScreen from "./InfoCardScreen";
 
-export { ParkingLotInfoScreen, ParkingLotUsageScreen, InfoModalScreen};
+export { ParkingLotInfoScreen, ParkingLotUsageScreen, InfoCardScreen};
