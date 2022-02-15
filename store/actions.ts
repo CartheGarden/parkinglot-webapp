@@ -5,10 +5,23 @@ export type SaveParkingSpaceIdAction = Action<'saveParkingSpaceId'> & {
     parkingSpaceId: string
 }
 
-export const saveParkingSpaceAction = (parkingSpaceId: string): SaveParkingSpaceIdAction => ({
+export type SaveParkingLockIdAction = Action<'saveParkingLockId'> & {
+    parkingLockId: string
+}
+
+export type SaveActions = SaveParkingSpaceIdAction | SaveParkingLockIdAction;
+
+export const saveParkingSpaceIdAction = (parkingSpaceId: string): SaveParkingSpaceIdAction => ({
     type: 'saveParkingSpaceId',
     parkingSpaceId
 })
+
+export const saveParkingLockIdAction = (
+  parkingLockId: string
+): SaveParkingLockIdAction => ({
+  type: "saveParkingLockId",
+  parkingLockId,
+});
 
 // type LogoutAction = Action<'logout'>
 // type LoginAction = Action<'login'> & {

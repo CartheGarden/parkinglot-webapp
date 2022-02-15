@@ -1,14 +1,18 @@
 import { AppState } from "./AppState"
-import type { SaveParkingSpaceIdAction } from "./actions"
+import type { SaveActions } from "./actions"
 
 const initialState: AppState = {
-    parkingSpaceId: "",
-}
+  parkingSpaceId: "",
+  parkingLockId: "",
+};
 
-export const rootReducer = (state: AppState = initialState, action: SaveParkingSpaceIdAction) => {
-    switch(action.type) {
-        case 'saveParkingSpaceId': return {...state, parkingSpaceId: action.parkingSpaceId}
-        // case 'logout': return initialState
-    }
-    return state
-}
+export const rootReducer = (state: AppState = initialState, action: SaveActions) => {
+  switch (action.type) {
+    case "saveParkingSpaceId":
+      return { ...state, parkingSpaceId: action.parkingSpaceId };
+    case "saveParkingLockId":
+      return { ...state, parkingLockId: action.parkingLockId };
+    // case 'logout': return initialState
+  }
+  return state;
+};

@@ -6,21 +6,19 @@ import { CenteredText, Footer } from "../../components";
 import { InfoModalScreen } from '.';
 import api from '../../utils/api';
 
-//TODO: Redux에 로그인 성공시 저장된 Usage 정보로 렌더링, Redux에 ParkingLot 정보 저장
-export default function ParkingLotUsageScreen() {
+export default function ParkingLotUsageScreen({route}) {
   const [modalVisible, setModalVisible] = useState(false);
-
-  //TODO: Get Usage id by url param and Call GetUsage(id)
   const [loading, setLoading] = useState(true);
   const [usageData, setUsageData] = useState({});
   const [usageDataObject, setUsageDataObject] = useState({});
   const [parkingSpace, setParkingSpace] = useState({});
   const [member, setMember] = useState({});
 
+  //TODO: url params 가져오기
+
   async function getUsage () {
     try {
-      const res = await api.getUsage("1");
-      console.log(res.data)
+      const res = await api.getUsage(route.params.usageId);
       setUsageData(res.data)
       setUsageDataObject(res?.data.usage)
       setParkingSpace(res?.data.usage.parkingSpace)

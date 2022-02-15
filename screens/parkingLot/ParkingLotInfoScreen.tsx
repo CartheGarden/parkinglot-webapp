@@ -8,12 +8,12 @@ import Modal from 'react-native-modal';
 import * as Font from "expo-font";
 import api from '../../utils/api';
 import { useDispatch } from 'react-redux';
-import { saveParkingSpaceAction } from '../../store'
+import { saveParkingLockIdAction, saveParkingSpaceIdAction } from '../../store'
 
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'ParkingLotInfo'>
 
-export default function ParkingLotInfoScreen() {
+export default function ParkingLotInfoScreen(route) {
   const navigation = useNavigation<NavigationProp>();
   const dispatch = useDispatch();
 
@@ -23,17 +23,21 @@ export default function ParkingLotInfoScreen() {
 
   // FIXME: get from url parameter
   const parkingLockIdFromQRCode = "TEST01"
+  const parkingLockId = route.params?.parkingLockId ? route.params.parkingLockId : parkingLockIdFromQRCode;
 
   Font.loadAsync({
     DoHyeon: require('../../assets/fonts/DoHyeon.ttf')
   })
 
-  //TODO: QR코드에서 가져온 parkingLockId 넘겨주기, Redux에 parkingSpaceId 저장
+  function init() {
+    dispatch(saveParkingLockIdAction(parkingLockIdFromQRCode));
+  }
+
   async function getParkingLot () {
     try {
-      const res = await api.getParkingSpace(parkingLockIdFromQRCode);
+      const res = await api.getParkingSpace(parkingLockId);
       setParkingLotData(res.data.parkingLot)
-      dispatch(saveParkingSpaceAction(res?.data.id));
+      dispatch(saveParkingSpaceIdAction(res?.data.id));
     } catch (err) {
       console.log(err);
     }
@@ -41,6 +45,7 @@ export default function ParkingLotInfoScreen() {
 
   useEffect(()=>{
     setLoading(true);
+    init();
     getParkingLot();
     setLoading(false);
   }, [])

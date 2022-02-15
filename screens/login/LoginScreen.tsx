@@ -22,6 +22,7 @@ export default function LoginScreen() {
       callbackUrl: CALL_BACK_URL,
       isPopup: false,
       loginButton: { color: 'green', type: 3, height: 30 },
+      callbackHandle: true
     })
     naverLogin.init()
   }
@@ -29,7 +30,6 @@ export default function LoginScreen() {
   const handleNaverLogin = () => {
     const naverLoginButton = document.getElementById("naverIdLogin").firstChild;
     if (naverLoginButton) {
-      console.log("button exist")
       naverLoginButton.click();
     }
   }

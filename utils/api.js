@@ -3,6 +3,13 @@ import axios from "axios";
 axios.defaults.baseURL = "http://localhost:41000/api";
 
 export default {
+    login (data) {
+        return axiosInstance({
+            method: "post",
+            url: "login/",
+            data: data,
+        })
+    },
     getParkingSpace (parkingLockId) {
         return axiosInstance({
             method: "get",

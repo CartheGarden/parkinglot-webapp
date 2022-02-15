@@ -5,6 +5,9 @@ import { RootStackParamList } from '../../types';
 import { View, Text, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import type { AppState } from '../../store'
+import { MiddleScreen } from '../general';
+import api from '../../utils/api';
+import getEnvVars from '../../environment';
 declare global {
   interface Window {
     naver: any;
@@ -16,20 +19,23 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'CallBack'>
 export default function CallBackScreen() {
   const navigation = useNavigation<NavigationProp>();
   const parkingSpaceId = useSelector<AppState, string>((state) => state.parkingSpaceId);
+  const parkingLockId = useSelector<AppState, string>((state) => state.parkingLockId);
+
+  const { NAVER_CLIENT_ID, CALL_BACK_URL } = getEnvVars();
 
   useEffect(() => {
     naverLogin.init()
   }, [])
 
   const naverLogin = new window.naver.LoginWithNaverId({
-    clientId: process.env.NAVER_CLIENT_ID,
-    callbackUrl: process.env.CALL_BACK_URL,
+    clientId: NAVER_CLIENT_ID,
+    callbackUrl: CALL_BACK_URL,
     isPopup: false,
     callbackHandle: true
   })
 
   window.addEventListener('load', function() {
-    naverLogin.getLoginStatus(function(status) {
+    naverLogin.getLoginStatus(async function(status) {
       if(status) {
         const data = {
           naverId: naverLogin.user.getId(),
@@ -48,23 +54,32 @@ export default function CallBackScreen() {
           return;
         }
 
-        // navigation.navigate('ParkingLotUsage', id);
-        // TODO: Call postMember(data) with data: {naverid, name, email}
-        //       and Call postUsage(data) data: { naverId, parkingSpaceId } -> get usage id -> pass through navigation
-        console.log(data.naverId)
-        console.log(data.name)
-        console.log(data.email)
-        navigation.navigate('ParkingLotUsage');
+        try {
+          await api.login(data)
+        } catch (err) {
+          alert("로그인에 실패하였습니다")
+          navigation.navigate('Login')
+          return;
+        }
+
+        let usageId = 0;
+        try {
+          const res = await api.useParkingSpace(data.naverId, parkingSpaceId)
+          usageId = res.data.id
+        } catch (err) {
+          alert("이미 사용중인 계정입니다")
+          navigation.navigate('ParkingLotInfo')
+          return;
+        }
+        navigation.navigate('ParkingLotUsage', {usageId: usageId});
       } else {
-        console.log("callback 처리에 실패하였습니다.");
+        navigation.navigate('ParkingLotInfo', {parkingLockId: parkingLockId});
       }
     })
   })
 
   return (
-    <View style={styles.container}>
-        <Text>Call Back 처리중입니다.</Text>
-    </View>
+    <MiddleScreen text="로딩중입니다"/>
   );
 }
 

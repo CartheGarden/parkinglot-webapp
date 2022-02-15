@@ -5,10 +5,11 @@
 // }
 
 export type AppState = {
-    // loggedIn: Boolean
-    // loggedUser: User
-    parkingSpaceId: string
-}
+  // loggedIn: Boolean
+  // loggedUser: User
+  parkingSpaceId: string;
+  parkingLockId: string;
+};
 
 export type parkingSapce = {
     id: string
