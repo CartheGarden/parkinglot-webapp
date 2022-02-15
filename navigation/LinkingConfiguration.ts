@@ -15,7 +15,7 @@ const linking: LinkingOptions<RootStackParamList> = {
     screens: {
       //Login: 'login',
       CallBack: 'callback',
-      ParkingLotInfo: 'info',
+      //ParkingLotInfo: 'info',
       ParkingLotUsage: 'usage',
       //Cancel: 'cancel',
       // NotFound: '*',

@@ -5,6 +5,9 @@ import { RootStackParamList } from '../../types';
 import { View, Text, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import type { AppState } from '../../store'
+import getEnvVars from '../../environment';
+
+const { NAVER_CLIENT_ID, CALL_BACK_URL } = getEnvVars();
 declare global {
   interface Window {
     naver: any;
@@ -22,8 +25,8 @@ export default function CallBackScreen() {
   }, [])
 
   const naverLogin = new window.naver.LoginWithNaverId({
-    clientId: process.env.NAVER_CLIENT_ID,
-    callbackUrl: process.env.CALL_BACK_URL,
+    clientId: NAVER_CLIENT_ID,
+    callbackUrl: CALL_BACK_URL,
     isPopup: false,
     callbackHandle: true
   })

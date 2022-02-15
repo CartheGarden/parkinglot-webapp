@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';;
 import { View, ImageBackground , Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { CenteredText, Footer } from "../../components";
+import getEnvVars from '../../environment';
 
+const { NAVER_CLIENT_ID, CALL_BACK_URL } = getEnvVars();
 declare global {
   interface Window {
     naver: any;
   }
 }
-
 
 export default function LoginScreen() {
 
@@ -17,8 +18,8 @@ export default function LoginScreen() {
 
   const initNaver = () => {
     const naverLogin = new window.naver.LoginWithNaverId({
-      clientId: process.env.NAVER_CLIENT_ID,
-      callbackUrl: process.env.CALL_BACK_URL,
+      clientId: NAVER_CLIENT_ID,
+      callbackUrl: CALL_BACK_URL,
       isPopup: false,
       loginButton: { color: 'green', type: 3, height: 30 },
     })
