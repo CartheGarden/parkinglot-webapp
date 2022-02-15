@@ -3,27 +3,35 @@ import { Dimensions ,StyleSheet, View } from 'react-native';
 import { Footer } from '../../components';
 import * as Font from "expo-font";
 import api from '../../utils/api';
-import { useDispatch } from 'react-redux';
-import { saveParkingLockIdAction, saveParkingSpaceIdAction } from '../../store'
+import { useDispatch, useSelector } from 'react-redux';
+import { AppState, saveParkingLockIdAction, saveParkingSpaceIdAction } from '../../store'
 import { InfoCardScreen } from '.';
 
 
-export default function ParkingLotInfoScreen(route) {
+export default function ParkingLotInfoScreen({route}) {
   const dispatch = useDispatch();
-
+  const parkingLockIdRedux = useSelector<AppState, string>((state) => state.parkingLockId);
   const [loading, setLoading] = useState(false);
   const [parkingLotData, setParkingLotData] = useState([]);
-
-  // FIXME: get from url parameter
-  const parkingLockIdFromQRCode = "TEST01"
-  const parkingLockId = route.params?.parkingLockId ? route.params.parkingLockId : parkingLockIdFromQRCode;
+  const [parkingLockId, setParkingLockId] = useState("");
 
   Font.loadAsync({
     DoHyeon: require('../../assets/fonts/DoHyeon.ttf')
   })
 
-  function init() {
-    dispatch(saveParkingLockIdAction(parkingLockIdFromQRCode));
+  async function init() {
+    const url = new URL(window.location.href);
+    const id = url.searchParams.get('id');
+    const lockId = route.params?.parkingLockId ? route.params.parkingLockId : 
+                                            id ? id : parkingLockIdRedux;
+    dispatch(saveParkingLockIdAction(lockId));
+    try {
+      const res = await api.getParkingSpace(lockId);
+      setParkingLotData(res.data.parkingLot)
+      dispatch(saveParkingSpaceIdAction(res?.data.id));
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   async function getParkingLot () {
@@ -39,7 +47,6 @@ export default function ParkingLotInfoScreen(route) {
   useEffect(()=>{
     setLoading(true);
     init();
-    getParkingLot();
     setLoading(false);
   }, [])
 

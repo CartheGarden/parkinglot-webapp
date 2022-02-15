@@ -21,6 +21,10 @@ export default function InfoCardScreen({isModal, onPressClose, data}) {
     </View>
   )
 
+  const dateFormatter = (date) => {
+    return date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+  }
+
   return (
     <View style={styles.card}>
       {isModal &&
@@ -31,7 +35,7 @@ export default function InfoCardScreen({isModal, onPressClose, data}) {
           <Icon name="close-circle" color={Colors.secondary} size={25}/>
         </TouchableOpacity>
       }
-      <CenteredText text={data.name} style={{flex: .2}} textStyle={{color: Colors.primary ,fontSize: 30}}/>
+      <CenteredText text={data.name} style={{flex: .2}} textStyle={{color: Colors.primary ,fontSize: 30, marginTop: 20}}/>
       <View style={styles.body}>
         <View style={styles.subview}>
           <Text style={styles.subviewTitle}>주차장 정보</Text>
@@ -42,13 +46,13 @@ export default function InfoCardScreen({isModal, onPressClose, data}) {
         <View style={styles.divider}/>
         <View style={styles.subview}>
           <Text style={styles.subviewTitle}>요금 안내</Text>
-          <Info title="기본 요금" content={data.basicTimeUnitMinute+"/"+data.basicCharge+"원"}/>
-          <Info title="추가 요금" content={data.additionalCharge+"/"+data.additionalTimeUnitMinute+"원"}/>
+          <Info title="기본 요금" content={data.basicCharge+"원 / "+data.basicTimeUnitMinute+"분"}/>
+          <Info title="추가 요금" content={data.additionalCharge+"원 / "+data.additionalTimeUnitMinute+"분"}/>
           <Info title="할증 요금" content="-"/>
         </View>
       </View>
       <View style={styles.updateText}>
-        <Text style={{color: Colors.gray}}>{"업데이트: " + new Date(data.lastUpdate).toLocaleString()}</Text>
+        <Text style={{color: Colors.gray}}>{"업데이트: " + dateFormatter(new Date(data.lastUpdate))}</Text>
       </View>
       {!isModal &&
         <View style={styles.button}>

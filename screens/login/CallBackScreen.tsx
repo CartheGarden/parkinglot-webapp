@@ -70,7 +70,7 @@ export default function CallBackScreen() {
           usageId = res.data.id
         } catch (err) {
           alert("이미 사용중인 계정입니다")
-          navigation.navigate('ParkingLotInfo')
+          navigation.navigate('ParkingLotInfo', {parkingLockId: parkingLockId})
           return;
         }
         navigation.navigate('ParkingLotUsage', {usageId: usageId});
