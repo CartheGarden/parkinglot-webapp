@@ -22,8 +22,8 @@ export default function CallBackScreen() {
   }, [])
 
   const naverLogin = new window.naver.LoginWithNaverId({
-    clientId: 'WBKLeGjXXB0UwVFZhu3e',
-    callbackUrl: 'http://localhost:19006/callback',
+    clientId: process.env.NAVER_CLIENT_ID,
+    callbackUrl: process.env.CALL_BACK_URL,
     isPopup: false,
     callbackHandle: true
   })

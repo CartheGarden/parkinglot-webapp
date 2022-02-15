@@ -1,7 +1,4 @@
-import React, { useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from '../../types';
+import React, { useEffect } from 'react';;
 import { View, ImageBackground , Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { CenteredText, Footer } from "../../components";
 
@@ -13,7 +10,6 @@ declare global {
 
 
 export default function LoginScreen() {
-  const navigation = useNavigation<NavigationProp>();
 
   useEffect(() => {
     initNaver();
@@ -21,14 +17,22 @@ export default function LoginScreen() {
 
   const initNaver = () => {
     const naverLogin = new window.naver.LoginWithNaverId({
-      clientId: {CLIENT_ID},
-      callbackUrl: {CALL_BACK_URL},
+      clientId: process.env.NAVER_CLIENT_ID,
+      callbackUrl: process.env.CALL_BACK_URL,
       isPopup: false,
       loginButton: { color: 'green', type: 3, height: 30 },
     })
     naverLogin.init()
   }
-  
+
+  const handleNaverLogin = () => {
+    const naverLoginButton = document.getElementById("naverIdLogin").firstChild;
+    if (naverLoginButton) {
+      console.log("button exist")
+      naverLoginButton.click();
+    }
+  }
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -43,11 +47,13 @@ export default function LoginScreen() {
         */}
         <CenteredText text="어따하지" style={{flex: .4}} textStyle={{color: 'white' ,fontSize: 48}}/>
         <CenteredText text="Enjoy your smart parking" style={{flex: .25}} textStyle={{color: 'white', fontSize: 20}}/>
-        {/* <TouchableOpacity style={styles.loginButton}>
-        <TouchableOpacity style={styles.loginButton} onPress={()=>navigation.navigate('ParkingLotUsage')}>
+        <TouchableOpacity style={styles.loginButton} onPress={handleNaverLogin}>
+          <Image source={require('../../assets/images/loginButtonNaver.png')} resizeMode='contain' style={{width: '100%', height: '100%'}}/>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.loginButton}>
           <Image source={require('../../assets/images/loginButtonKakao.png')} resizeMode='contain' style={{width: '100%', height: '100%'}}/>
-        </TouchableOpacity> */}
-        <div id="naverIdLogin"/>
+        </TouchableOpacity>
+        <div id="naverIdLogin" style={{display:"none"}}/>
       </View>
       <Footer/>
 
@@ -85,6 +91,7 @@ const styles = StyleSheet.create({
     flex: .2,
     justifyContent: 'center',
     width: '80%',
+    margin: 5,
   },
   footer: {
     flex: 1,
