@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:41000/api";
+axios.defaults.baseURL = "/api";
 
 export default {
     login (data) {

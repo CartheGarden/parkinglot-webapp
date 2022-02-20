@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from '../../types';
@@ -25,18 +25,15 @@ export default function CallBackScreen() {
 
   const { NAVER_CLIENT_ID, CALL_BACK_URL } = getEnvVars();
 
-  useEffect(() => {
-    naverLogin.init()
-  }, [])
-
   const naverLogin = new window.naver.LoginWithNaverId({
     clientId: NAVER_CLIENT_ID,
     callbackUrl: CALL_BACK_URL,
     isPopup: false,
     callbackHandle: true
   })
-
-  window.addEventListener('load', function() {
+  
+  useEffect(() => {
+    naverLogin.init()
     naverLogin.getLoginStatus(async function(status) {
       if(status) {
         const data = {
@@ -78,7 +75,7 @@ export default function CallBackScreen() {
         navigation.navigate('ParkingLotInfo', {parkingLockId: parkingLockId});
       }
     })
-  })
+  }, [])
 
   return (
     <MiddleScreen text="로딩중입니다"/>
